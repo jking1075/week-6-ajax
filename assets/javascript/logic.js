@@ -2,7 +2,7 @@
 //=================================================================================================================================
 //Global Variables
 
-var topics = ["basketball","football","soccer","baseball","hockey"];
+var topics = ["basketball","football","soccer","baseball","hockey","tennis","lacrosse"];
 
 
 function renderButtons() {
@@ -18,6 +18,7 @@ for (var i = 0; i < topics.length; i++)
 	a.addClass("sport");
 	//Adding a data-attrubute with a value of the topics at index i
 	a.attr("q", topics[i]);
+	a.html(topics[i]);
 	//Providing the button's text with a value of the sport at index i
 	$("#sports-view").append(a);
 	}
@@ -32,14 +33,14 @@ var sport = $("#sport-input").val().trim();
 topics.push(sport);
 
 //calling renderButtons which hadles the processing of our sports array
-renderButtons();
+//renderButtons();
 });
 
 //calling the renderButtons function to display the initial list of sports
 renderButtons();
 
 
-
+// getElementsByTagName('')
 function createInput() {
         var $input = $('<input type="button" value="#sport-input"/>');
         $input.appendTo($("body"));
@@ -48,7 +49,7 @@ function createInput() {
 
 
 	$('button').on('click',function(){
-		var x = $(this).data("search");
+		var x = $(this).attr("q");
 		console.log(x);
 
 		var queryURL = "http://api.giphy.com/v1/gifs/search?q="+x+"&api_key=dc6zaTOxFJmzC&limit=10";
@@ -60,9 +61,12 @@ function createInput() {
 				for(var i=0;i<response.data.length;i++){
 				$('#sports-view').prepend("<p>Rating: "+response.data[i].rating+"</p>");
 				$('#sports-view').prepend("<img src="+response.data[i].images.downsized_still.url+"'>");
+				
 				}
 			})
-	})
+			
+
+})
 
 	// Event handler for user clicking the select-sport button
   $("#select-sport").on("click", function(event) {
@@ -71,6 +75,7 @@ function createInput() {
     // Storing the artist name
     var sport = $("#sport-input").val().trim();
     console.log(sport);
+
 });
    // console.log(input);
 	
