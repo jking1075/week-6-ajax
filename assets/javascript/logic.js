@@ -24,8 +24,8 @@ for (var i = 0; i < topics.length; i++)
 	}
 }
 //This function handles events where one button is clicked
-$("add-sport").on("click", function(event) {
-//ent.prentDefault() prevents the form from trying to submit itself.
+$("#add-sport").on("click", function(event) {
+//event.prentDefault() prevents the form from trying to submit itself.
 event.preventDefault();
 //This line will grab the text from the input bos
 var sport = $("#sport-input").val().trim();
@@ -34,6 +34,7 @@ topics.push(sport);
 
 //calling renderButtons which hadles the processing of our sports array
 //renderButtons();
+renderButtons();
 });
 
 //calling the renderButtons function to display the initial list of sports
@@ -45,6 +46,7 @@ function createInput() {
         var $input = $('<input type="button" value="#sport-input"/>');
         $input.appendTo($("body"));
     }
+
 
 
 
@@ -67,6 +69,23 @@ function createInput() {
 			
 
 })
+
+$(".gif").on("click", function() {
+      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+      var state = $(this).attr("data-state");
+      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+      // Then, set the image's data-state to animate
+      // Else set src to the data-still value
+      if (state === "still") {
+        ("<img src="+response.data[i].images.downsized_animate.url+"'>")
+        $(this).attr("data-state", "animate");
+      } else {
+      	$('#sports-view').prepend("<img src="+response.data[i].images.downsized_still.url+"'>");
+				
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+    });
 
 	// Event handler for user clicking the select-sport button
   $("#select-sport").on("click", function(event) {
