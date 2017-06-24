@@ -91,7 +91,7 @@ $(document).on("click", 'img', function() {
 	// Then, set the image's data-state to animate
 	// Else set src to the data-still value
 	if (state === "still") {
-	debugger;
+	
 		//console.log()
 	$(this).attr("data-state", "animate");
 //	} else {
@@ -100,11 +100,33 @@ $(document).on("click", 'img', function() {
 	$(this).attr("src", $(this).attr("data-animate"));
 	
 	} else {
+		console.log("Im in the else");
 		$(this).attr("src", $(this).attr("data-still"));
 		$(this).attr("data-state", "still");
 	}
 });
 
+$(document).on("click", 'img', function() {
+	console.log('i clicked it again');
+	// The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+	var state = $(this).attr("data-state");		
+	// If the clicked image's state is still, update its src attribute to what its data-animate value is.
+	// Then, set the image's data-state to animate
+	// Else set src to the data-still value
+	if (state === "animate") {
+	console.log("Im in the if")
+		//console.log()
+	$(this).attr("data-state", "still");
+//	} else {
+//		$('#sports-view').prepend("<img src="+response.data[i].images.downsized_still.url+"'>");
+			
+	$(this).attr("src", $(this).attr("data-still"));
+	
+	} else {
+		$(this).attr("src", $(this).attr("data-animate"));
+		$(this).attr("data-state", "animate");
+	}
+});
 // $(".gif").on("click", function() {
 // 	console.log('i clicked a gif');
 // 	// The attr jQuery method allows us to get or set the value of any attribute on our HTML element
