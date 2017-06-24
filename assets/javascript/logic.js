@@ -5,36 +5,46 @@
 var topics = ["basketball","football","soccer","baseball","hockey","tennis","lacrosse"];
 
 
-function renderButtons() {
-//deleting the sport buttons prior to adding a new button
-$("#sports-view").empty();
 
-//looping through the array of sports
-for (var i = 0; i < topics.length; i++)
-	{
-	//Dynamicaly generating buttons for each sport.
-	var a = $("<button>");
-	//add a class
-	a.addClass("sport");
-	//Adding a data-attrubute with a value of the topics at index i
-	a.attr("q", topics[i]);
-	a.html(topics[i]);
-	//Providing the button's text with a value of the sport at index i
-	$("#sports-view").append(a);
+
+//=================================================================================================================================
+//Functoins
+
+function renderButtons() {
+	//deleting the sport buttons prior to adding a new button
+	console.log(topics);
+	$("#sports-view").empty();
+
+
+	//looping through the array of sports
+	for (var i = 0; i < topics.length; i++){
+		//Dynamicaly generating buttons for each sport.
+		var a = $("<button>");
+		//add a class
+		a.addClass("sport");
+		//Adding a data-attrubute with a value of the topics at index i
+		a.attr("q", topics[i]);
+		a.html(topics[i]);
+		//Providing the button's text with a value of the sport at index i
+		$("#sports-view").append(a);
+
 	}
 }
-//This function handles events where one button is clicked
-$("#add-sport").on("click", function(event) {
-//event.prentDefault() prevents the form from trying to submit itself.
-event.preventDefault();
-//This line will grab the text from the input bos
-var sport = $("#sport-input").val().trim();
-//The sport from the textbox is then added to our array.
-topics.push(sport);
 
-//calling renderButtons which hadles the processing of our sports array
-//renderButtons();
-renderButtons();
+//This function handles events where one button is clicked
+	$("#add-sport").on("click", function(event) {
+	//event.prentDefault() prevents the form from trying to submit itself.
+	event.preventDefault();
+	//This line will grab the text from the input bos
+	var sport = $("#sport-input").val().trim();
+	//The sport from the textbox is then added to our array.
+	topics.push(sport);
+	console.log(sport);
+	
+
+	//calling renderButtons which hadles the processing of our sports array
+	//renderButtons();
+	renderButtons();
 });
 
 //calling the renderButtons function to display the initial list of sports
@@ -43,14 +53,15 @@ renderButtons();
 
 // getElementsByTagName('')
 function createInput() {
-        var $input = $('<input type="button" value="#sport-input"/>');
-        $input.appendTo($("body"));
+        var input = $("#sport-input");
+        topics.push(input);
+        renderButtons();
     }
 
 
 
 
-	$('button').on('click',function(){
+	$("#sports-view").on('click', "button",function(){
 		var x = $(this).attr("q");
 		console.log(x);
 
@@ -61,8 +72,9 @@ function createInput() {
 			.done(function(response){
 				console.log("<p>Rating: "+response.data[0].rating);
 				for(var i=0;i<response.data.length;i++){
+					console.log(response.data[i])
 				$('#sports-view').prepend("<p>Rating: "+response.data[i].rating+"</p>");
-				$('#sports-view').prepend("<img src="+response.data[i].images.downsized_still.url+"'>");
+				$('#sports-view').prepend("<img class='gif' data-state='still' data-animate="+response.data[i].images.original.url+" src="+response.data[i].images.downsized_still.url+"'>");
 				
 				}
 			})
@@ -70,22 +82,49 @@ function createInput() {
 
 })
 
-$(".gif").on("click", function() {
-      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
-      var state = $(this).attr("data-state");
-      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-      // Then, set the image's data-state to animate
-      // Else set src to the data-still value
-      if (state === "still") {
-        ("<img src="+response.data[i].images.downsized_animate.url+"'>")
-        $(this).attr("data-state", "animate");
-      } else {
-      	$('#sports-view').prepend("<img src="+response.data[i].images.downsized_still.url+"'>");
-				
-        $(this).attr("src", $(this).attr("data-still"));
-        $(this).attr("data-state", "still");
-      }
-    });
+
+$(document).on("click", 'img', function() {
+	console.log('i clicked a gif');
+	// The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+	var state = $(this).attr("data-state");		
+	// If the clicked image's state is still, update its src attribute to what its data-animate value is.
+	// Then, set the image's data-state to animate
+	// Else set src to the data-still value
+	if (state === "still") {
+	debugger;
+		//console.log()
+	$(this).attr("data-state", "animate");
+//	} else {
+//		$('#sports-view').prepend("<img src="+response.data[i].images.downsized_still.url+"'>");
+			
+	$(this).attr("src", $(this).attr("data-animate"));
+	
+	} else {
+		$(this).attr("src", $(this).attr("data-still"));
+		$(this).attr("data-state", "still");
+	}
+});
+
+// $(".gif").on("click", function() {
+// 	console.log('i clicked a gif');
+// 	// The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+// 	var state = $(this).attr("data-state");
+// 	// If the clicked image's state is still, update its src attribute to what its data-animate value is.
+// 	// Then, set the image's data-state to animate
+// 	// Else set src to the data-still value
+// 	if (state === "still") {
+// 		debugger;
+// 	("<img src="+response.data[i].images.downsized_animate.url+"'>");
+// 	console.log()
+// 	$(this).attr("data-state", "animate");
+// 	} else {
+// 		debugger;
+// 		$('#sports-view').prepend("<img src="+response.data[i].images.downsized_still.url+"'>");
+			
+// 	$(this).attr("src", $(this).attr("data-still"));
+// 	$(this).attr("data-state", "still");
+// 	}
+// });
 
 	// Event handler for user clicking the select-sport button
   $("#select-sport").on("click", function(event) {
@@ -94,6 +133,8 @@ $(".gif").on("click", function() {
     // Storing the artist name
     var sport = $("#sport-input").val().trim();
     console.log(sport);
+    topics.push(sport);
+    renderButtons();
 
 });
    // console.log(input);

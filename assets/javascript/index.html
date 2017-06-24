@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src = 'http://code.jquery.com/jquery-2.1.3.min.js'></script>
+	
+</head>
+<body>
+<div id="example" data-secret="lol">
+
+</div>
+<script>
+//get the div
+console.log($("#example"));
+//getting data fro the dive and saving it
+var secretOne=$("#example").attr("data-secret");
+console.log(secretOne);
+//changing the data on the dive
+$("#example").attr("data-secret","secret Two");
+//getting new data and saving it
+var secretTwo=$("#example").attr("data-secret");
+console.log(secretTwo);
+</script>
+</body>
+</html>
